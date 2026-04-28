@@ -1824,14 +1824,14 @@ function demoLogin(){
     DB.setC('demo','users',[
       {id:'u-admin',nome:'Leonardo (Admin)',email:'admin@demo.com',senha:'demo123',role:'Administrador',companyId:'demo',criado:nowStr()},
       {id:'u-rt',nome:'Dr. Carvalho (RT)',email:'rt@demo.com',senha:'demo123',role:'RT',companyId:'demo',criado:nowStr()},
-      {id:'u-enf',nome:'Julia (Enfermeira)',email:'enf@demo.com',senha:'demo123',role:'Enfermeiro',companyId:'demo',criado:nowStr()},
+      {id:'u-enf',nome:'Júlia (Enfermeira)',email:'enf@demo.com',senha:'demo123',role:'Enfermeiro',companyId:'demo',criado:nowStr()},
       {id:'u-cond',nome:'Carlos (Condutor)',email:'cond@demo.com',senha:'demo123',role:'Condutor',companyId:'demo',criado:nowStr()},
-      {id:'u-tec',nome:'Ana (Tecnica)',email:'tec@demo.com',senha:'demo123',role:'Tecnico',companyId:'demo',criado:nowStr()},
+      {id:'u-tec',nome:'Ana (Técnica)',email:'tec@demo.com',senha:'demo123',role:'Técnico',companyId:'demo',criado:nowStr()},
     ]);
     DB.setC('demo','ambs',[
       {id:'a1',prefixo:'SA-01',placa:'JBV 5I90',modelo:'Sprinter 2.2',ano:'2022',rt:'u-rt',status:'Ativo',criado:nowStr(),equipe:[{cargo:'Condutor',userId:'u-cond'},{cargo:'Enfermeiro',userId:'u-enf'}]},
-      {id:'a2',prefixo:'SB-01',placa:'JDJ 7G22',modelo:'Transit',ano:'2021',rt:'',status:'Ativo',criado:nowStr(),equipe:[{cargo:'Condutor',userId:'u-cond'},{cargo:'Tecnico',userId:'u-tec'}]},
-      {id:'a3',prefixo:'SA-RES',placa:'JDN 1A78',modelo:'Sprinter 319',ano:'2023',rt:'u-rt',status:'Ativo',criado:nowStr(),equipe:[{cargo:'Condutor',userId:'u-cond'},{cargo:'Enfermeiro',userId:'u-enf'},{cargo:'Tecnico',userId:'u-tec'}]},
+      {id:'a2',prefixo:'SB-01',placa:'JDJ 7G22',modelo:'Transit',ano:'2021',rt:'',status:'Ativo',criado:nowStr(),equipe:[{cargo:'Condutor',userId:'u-cond'},{cargo:'Técnico',userId:'u-tec'}]},
+      {id:'a3',prefixo:'SA-RES',placa:'JDN 1A78',modelo:'Sprinter 319',ano:'2023',rt:'u-rt',status:'Ativo',criado:nowStr(),equipe:[{cargo:'Condutor',userId:'u-cond'},{cargo:'Enfermeiro',userId:'u-enf'},{cargo:'Técnico',userId:'u-tec'}]},
     ]);
     DB.setC('demo','config',{empresa:'SAMU Regional — Demo',rtPrincipal:'u-rt',gas_url:''});
   }
