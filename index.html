@@ -2875,7 +2875,7 @@ function renderStock(){
               onchange="salvarValidadeRTInline('${esc(item.id)}',this.value)"
               style="padding:3px 5px;font-size:0.72rem;width:120px;${dias!==null&&dias<=30?'border-color:var(--yellow)':''}${dias!==null&&dias<0?'border-color:var(--red)':''}">
           </div>`
-        : `<span style="font-size:0.74rem;${valColor}">${valProx||'—'}</span>`;
+        : `<span style="font-size:0.74rem;${valColor}">${fmtDateBR(valProx)||'—'}</span>`;
 
       const headerEl = document.createElement('div');
       headerEl.className = `stk-item-header${rowBg}`;
@@ -2942,7 +2942,7 @@ function renderStock(){
             ? `<input type="date" class="fi" id="val_lote_${esc(item.id)}_${origIdx}" value="${lote.validade||''}"
                 onchange="salvarValidadeLote('${esc(item.id)}',${origIdx},this.value)"
                 style="padding:2px 5px;font-size:0.7rem;width:118px">`
-            : `<span style="font-size:0.7rem;${lValColor}">${lote.validade||'—'}</span>`;
+            : `<span style="font-size:0.7rem;${lValColor}">${fmtDateBR(lote.validade)||'—'}</span>`;
           return `<div class="stk-lote${dl!==null&&dl<0?' stk-lote-vencido':dl!==null&&dl<=30?' stk-lote-proximo':''}"
             style="display:grid;grid-template-columns:80px 90px 150px 95px;align-items:center;padding:4px 4px 4px 20px;gap:8px;border-bottom:1px solid #0d1018">
             <span style="font-size:0.7rem;color:var(--muted2);font-style:italic">Lote ${idx+1}</span>
@@ -3067,13 +3067,23 @@ function renderValidades(){
   renderStock();
 }
 
+function getOpenLoteIds(){
+  return Array.from(document.querySelectorAll('[id^="lotes-"]'))
+    .filter(el=>el.style.display!=='none').map(el=>el.id.replace('lotes-',''));
+}
+function restoreOpenLotes(ids){
+  ids.forEach(id=>{
+    const cont=qid('lotes-'+id),btn=qid('btn-lote-'+id);
+    if(cont){cont.style.display='block';if(btn)btn.textContent='−';}
+  });
+}
 function salvarValidadeRTInline(itemId, novaData){
   const stock=getStock();
   const item=stock.find(i=>i.id===itemId);
   if(!item) return;
   item.validade = novaData;
   setStock(stock);
-  renderStock();
+  const _abRTI=getOpenLoteIds(); renderStock(); restoreOpenLotes(_abRTI);
   showToast(novaData ? '✅ Validade salva!' : '🗑️ Validade removida.');
 }
 
@@ -3083,7 +3093,7 @@ function salvarValidadeLote(itemId, loteIdx, novaData){
   if(!item||!item.lotes?.[loteIdx]) return;
   item.lotes[loteIdx].validade = novaData;
   setStock(stock);
-  renderStock();
+  const _abL=getOpenLoteIds(); renderStock(); restoreOpenLotes(_abL);
   showToast('✅ Validade do lote salva!');
 }
 
