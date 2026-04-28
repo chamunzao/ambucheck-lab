@@ -726,6 +726,7 @@ tbody td{padding:11px 14px;color:var(--text);vertical-align:middle;font-variant-
               <div class="gh" style="grid-template-columns:40px 1fr 70px 110px 90px"><span title="Confirmar OK">OK</span><span>Medicamento</span><span>Qtd</span><span>Validade</span><span>Situação</span></div>
               <div id="enf-med-rows"></div>
             </div>
+            <div class="btn-row" style="justify-content:flex-end;margin-top:12px"><button class="btn green" onclick="submitChecklist()"><i data-lucide="check-circle-2"></i>Finalizar e registrar checklist</button></div>
           </div>
         </div>
       </div>
@@ -2528,7 +2529,11 @@ function submitChecklist(){
     pneus:gR('pneus'), limp_int:gR('limp_int'), limp_ext:gR('limp_ext'),
     intercorrencias:qid('intercorrencias').value, hodometro:qid('hodometro').value,
     temp_int:qid('temp_int').value, temp_ext:qid('temp_ext').value,
-    km_fim:qid('km_fim').value, km_saidas:window._kmSaidas||[]
+    km_fim:qid('km_fim').value, km_saidas:window._kmSaidas||[],
+    enf_med:Object.fromEntries(MED_AVANCADA.map((m,i)=>[m,qid('enf_med_'+i)?.value||''])),
+    enf_med_val:Object.fromEntries(MED_AVANCADA.map((m,i)=>[m,qid('enf_med_val_'+i)?.value||''])),
+    tec_med:Object.fromEntries(MED_BASICA.map((m,i)=>[m,qid('tec_med_'+i)?.value||''])),
+    tec_med_val:Object.fromEntries(MED_BASICA.map((m,i)=>[m,qid('tec_med_val_'+i)?.value||'']))
   };
   const chks=getChks(); chks.unshift(rec); setChks(chks);
   saveKmHist(rec);
@@ -4490,6 +4495,7 @@ function renderMedGrid(containerId, items, prefix){
     // Buscar validade do estoque como fallback
     const nomeItem = item.replace(/^\d+\s*[-–]\s*/,'').slice(0,15);
     const stkItem = stock.find(s => s.name.toLowerCase().includes(nomeItem.toLowerCase().slice(0,8)));
+    if(stkItem && stkItem.qtd_rt === 0) return '';
     const validadePre = ultimoVal || stkItem?.validade || '';
     const qtdPre = ultimoMed || '';
 
